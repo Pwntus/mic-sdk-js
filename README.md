@@ -1,6 +1,4 @@
 # Managed IoT Cloud SDK
-Managed IoT Cloud (MIC) SDK for Node.js.
-
 Use this as an interface to easily communicate with the Cloud API's, which can be found [here](https://docs.telenorconnexion.com/mic/cloud-api/).
 
 ## Installing
@@ -42,6 +40,8 @@ This method must be called before any other methods are used.
 
 **Return:** `(manifest, credentials)` promise
 
+---
+
 ### MIC.auth(username, password)
   * `username`: the user of the user to be authenticated
   * `password`: the password of the user to be authenticated
@@ -50,6 +50,8 @@ Authenticate a user by invoking the [`Auth API LOGIN`](https://docs.telenorconne
 
 **Return:** `user` promise
 
+---
+
 ### MIC.invoke(cloud_api, payload)
   * `cloud_api`: the Cloud API name, refer to the [Cloud API documentation](https://docs.telenorconnexion.com/mic/cloud-api/)
   * `payload`: a payload object
@@ -57,6 +59,8 @@ Authenticate a user by invoking the [`Auth API LOGIN`](https://docs.telenorconne
 Invoke a Cloud API with the given payload.
 
 **Return:** `result` promise
+
+---
 
 ### MIC.subscribe()
 Coming soon...
