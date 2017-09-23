@@ -1,0 +1,29 @@
+{
+  "name": "mic-sdk-js",
+  "version": "0.0.1",
+  "description": "MIC SDK for JavaScript.",
+  "main": "lib/index.js",
+  "scripts": {
+    "compile": "babel -e -d lib/ src/",
+    "prepublish": "npm run compile && node lib/test.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Pwntus/mic-sdk-js.git"
+  },
+  "author": "Pontus Aurdal <pontus.edvard@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Pwntus/mic-sdk-js/issues"
+  },
+  "homepage": "https://github.com/Pwntus/mic-sdk-js#readme",
+  "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-preset-env": "^1.6.0"
+  },
+  "dependencies": {
+    "aws-sdk": "^2.122.0",
+    "axios": "^0.16.2"
+  }
+}
