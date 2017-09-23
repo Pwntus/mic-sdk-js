@@ -17,8 +17,8 @@ const api = new MIC
 api.init('startiot.mic.telenorconnexion.com')
 .then((manifest, credentials) => {
   
-  // Now, authenticate a user
-  api.auth('John', '*********')
+  // Now, login a user
+  api.login('John', '*********')
   .then(user => {
 
     // Invoke a cloud API with a payload
@@ -42,7 +42,7 @@ This method must be called before any other methods are used.
 
 ---
 
-### MIC.auth(username, password)
+### MIC.login(username, password)
   * `username`: the user of the user to be authenticated
   * `password`: the password of the user to be authenticated
 

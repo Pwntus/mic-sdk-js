@@ -163,7 +163,7 @@ class MIC {
   }
   
   /* Perform steps needed to create a Cognito Identity */
-  auth (username, password) {
+  login (username, password) {
 
     if (!this._assertInited())
       return Promise.reject('Error: MIC not initialized!')
