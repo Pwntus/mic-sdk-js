@@ -1,14 +1,14 @@
-# mic-sdk-js
-Managed IoT Cloud (MIC) SDK for JavaScript.
+# Managed IoT Cloud SDK for Node
+Managed IoT Cloud (MIC) SDK for Node.
 
 ## Installing
 Using npm:
 ```
-$ npm install mic-sdk-js
+npm install mic-sdk-js
 ```
 
-## Example: Authenticate and Cloud API Invocation
-```
+## Usage: Authenticate and Cloud API Invocation
+```javascript
 import MIC from 'mic-sdk-js'
 
 const api = new MIC
