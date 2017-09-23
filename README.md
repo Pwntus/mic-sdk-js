@@ -9,7 +9,7 @@ Using npm:
 npm install mic-sdk-js
 ```
 
-## Usage: Authenticate and Cloud API Invocation
+## Usage
 ```javascript
 import MIC from 'mic-sdk-js'
 
@@ -38,19 +38,25 @@ api.init('startiot.mic.telenorconnexion.com')
 ### MIC.init(hostname)
   * `hostname`: the host name used for your application
 
-Returns a `(manifest, credentials)` promise if the manifest was successfully retrieved. This method must be called before any other methods are used.
+This method must be called before any other methods are used.
+
+**Return:** `(manifest, credentials)` promise
 
 ### MIC.auth(username, password)
   * `username`: the user of the user to be authenticated
   * `password`: the password of the user to be authenticated
 
-Authenticate a user by invoking the [`Auth API LOGIN`](https://docs.telenorconnexion.com/mic/cloud-api/auth/#login) action. Return the user object.
+Authenticate a user by invoking the [`Auth API LOGIN`](https://docs.telenorconnexion.com/mic/cloud-api/auth/#login) action.
+
+**Return:** `user` promise
 
 ### MIC.invoke(cloud_api, payload)
   * `cloud_api`: the Cloud API name, refer to the [Cloud API documentation](https://docs.telenorconnexion.com/mic/cloud-api/)
   * `payload`: a payload object
 
-Invoke a Cloud API with the given payload. Return the result object.
+Invoke a Cloud API with the given payload.
+
+**Return:** `result` promise
 
 ### MIC.subscribe()
 Coming soon...
