@@ -63,6 +63,10 @@ Invoke a Cloud API with the given payload.
 ---
 
 ### MIC.init_mqtt()
+Initialize the MQTT client. Use this client to add `.on()` callback handlers to handle MQTT-events, as specified in the [AWS Websocket Pub/Sub client documentation](https://www.npmjs.com/package/aws-mqtt-client)
+
+**Return:** a [AWS Websocket Pub/Sub client](https://www.npmjs.com/package/aws-mqtt-client)
+---
 
 ### MIC.subscribe(topic)
   * `topic`: the topic to subscribe to, as specified in the [Thing Update API documentation](https://docs.telenorconnexion.com/mic/cloud-api/thing-update/#thing-update-subscription)
