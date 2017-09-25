@@ -1,6 +1,5 @@
 import AWS from 'aws-sdk'
 import axios from 'axios'
-import AWSMqtt from 'aws-mqtt-client'
 
 class MIC {
 

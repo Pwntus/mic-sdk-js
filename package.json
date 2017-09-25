@@ -24,7 +24,6 @@
     "babel-preset-env": "^1.6.0"
   },
   "dependencies": {
-    "aws-mqtt-client": "0.0.5",
     "aws-sdk": "^2.122.0",
     "axios": "^0.16.2"
   }
