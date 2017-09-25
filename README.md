@@ -46,7 +46,7 @@ This method must be called before any other methods are used.
   * `username`: the user of the user to be authenticated
   * `password`: the password of the user to be authenticated
 
-Authenticate a user by invoking the [`Auth API LOGIN`](https://docs.telenorconnexion.com/mic/cloud-api/auth/#login) action.
+Authenticate a Cognito user by invoking the [`Auth API LOGIN`](https://docs.telenorconnexion.com/mic/cloud-api/auth/#login) action.
 
 **Return:** `user` promise
 
@@ -62,8 +62,19 @@ Invoke a Cloud API with the given payload.
 
 ---
 
-### MIC.subscribe()
-Coming soon...
+### MIC.init_mqtt()
 
-### MIC.publish()
-Coming soon...
+### MIC.subscribe(topic)
+  * `topic`: the topic to subscribe to, as specified in the [Thing Update API documentation](https://docs.telenorconnexion.com/mic/cloud-api/thing-update/#thing-update-subscription)
+
+Subscribe to a topic.
+
+**Return:** a promise
+
+### MIC.publish(topic, message)
+  * `topic`: the topic to publish to, as specified in the [Thing Update API documentation](https://docs.telenorconnexion.com/mic/cloud-api/thing-update/#thing-update-publishing)
+  * `message`: the message to publish
+
+Publish a message on a topic.
+
+**Return:** a promise

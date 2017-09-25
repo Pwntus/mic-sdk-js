@@ -1,5 +1,6 @@
 import AWS from 'aws-sdk'
 import axios from 'axios'
+import AWSMqtt from 'aws-mqtt-client'
 
 class MIC {
 
@@ -7,6 +8,11 @@ class MIC {
     this._host = null
     this._AWS = AWS
     this._manifest = null
+    this._account = null
+
+    this._mqtt = null
+    this._topic = null
+    this._retries = 0
   }
 
   /* Load AWS manifest */
@@ -131,8 +137,8 @@ class MIC {
     return this._AWS.config.credentials.getPromise()
   }
 
-  refreshCredentials () {
-    const account = window.localStorage.getItem('account')
+  _refreshCredentials () {
+    const account = this._account
     
     if (typeof account === 'undefined')
       throw new Error('No Refresh Token')
@@ -147,7 +153,6 @@ class MIC {
     })
     this._AWS.config.credentials.clearCachedId()
     
-    let accountData = null
     const refreshPayload = {
       action: 'REFRESH',
       attributes: {
@@ -156,10 +161,10 @@ class MIC {
     }
     return this.invoke('AuthLambda', refreshPayload)
       .then(account => {
-        accountData = account
+        this._account = account
         return this._getCredentials(account.credentials.token)
       })
-      .then(() => { return Promise.resolve(accountData) })
+      .then(() => { return Promise.resolve(this._account) })
   }
   
   /* Perform steps needed to create a Cognito Identity */
@@ -171,7 +176,6 @@ class MIC {
     /* Invoke an AuthLambda call to obtain an
      * authentication token from Cloud Connect.
      */
-    let accountData = null
     const loginPayload = {
       action: 'LOGIN',
       attributes: {
@@ -181,14 +185,79 @@ class MIC {
     }
     return this.invoke('AuthLambda', loginPayload)
       .then(account => {
-        accountData = account
+        this._account = account
 
         /* Get AWS Cognito raised privilege credential
          * using the obtained MIC auth token.
          */
-        return this._getCredentials(accountData.credentials.token)
+        return this._getCredentials(account.credentials.token)
       })
-      .then(() => { return Promise.resolve(accountData) })
+      .then(() => { return Promise.resolve(this._account) })
+  }
+
+  init_mqtt () {
+    if (!this._assertInited())
+      throw new Error('Error: MIC not initialized!')
+
+    this._topic = null
+    this._retries = 0
+    this._mqtt = new AWSMqtt({
+      region:                 this._AWS.config.region,
+      accessKeyId:            this._AWS.config.credentials.accessKeyId,
+      secretAccessKey:        this._AWS.config.credentials.secretAccessKey,
+      sessionToken:           this._AWS.config.credentials.sessionToken,
+      endpointAddress:        this._manifest.IotEndpoint,
+      maximumReconnectTimeMs: 8000,
+      protocol:               'wss'
+    })
+    
+    this._mqtt.on('reconnect', () => {
+      this._refreshCredentials().then(() => {
+        this.retries++
+        if (this.retries > 1) {
+          this.retries = 0
+          this._kill_mqtt()
+        }
+      })
+      .catch(e => {
+        console.log(e);
+      })
+    })
+
+    return this._mqtt
+  }
+
+  _kill_mqtt () {
+    if (this._topic !== null)
+      this._mqtt.unsubscribe(this._topic)
+    this._mqtt.end(true)
+    // Bug: user defined .on() are reset
+    this.init_mqtt()
+  }
+
+  subscribe (topic = null) {
+    if (this._topic !== null)
+      this._mqtt.unsubscribe(this._topic)
+
+    this._topic = topic
+
+    return new Promise((reject, resolve) => {
+      this._mqtt.subscribe(topic, {qos: 1}, (err, granted) => {
+        if (err)
+          reject(err)
+        resolve()
+      })
+    })
+  }
+
+  publish (topic, message) {
+    return new Promise((reject, resolve) => {
+      this.mqtt.publish(topic, message, {qos: 1}, (err) => {
+        if (err)
+          reject(err)
+        resolve()
+      })
+    })
   }
 }
 
