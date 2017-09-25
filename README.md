@@ -66,6 +66,7 @@ Invoke a Cloud API with the given payload.
 Initialize the MQTT client. Use this client to add `.on()` callback handlers to handle MQTT-events, as specified in the [AWS Websocket Pub/Sub client documentation](https://www.npmjs.com/package/aws-mqtt-client)
 
 **Return:** a [AWS Websocket Pub/Sub client](https://www.npmjs.com/package/aws-mqtt-client)
+
 ---
 
 ### MIC.subscribe(topic)
