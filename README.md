@@ -71,6 +71,8 @@ Subscribe to a topic.
 
 **Return:** a promise
 
+---
+
 ### MIC.publish(topic, message)
   * `topic`: the topic to publish to, as specified in the [Thing Update API documentation](https://docs.telenorconnexion.com/mic/cloud-api/thing-update/#thing-update-publishing)
   * `message`: the message to publish
