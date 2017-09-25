@@ -9,10 +9,6 @@ class MIC {
     this._AWS = AWS
     this._manifest = null
     this._account = null
-
-    this._mqtt = null
-    this._topic = null
-    this._retries = 0
   }
 
   /* Load AWS manifest */
@@ -193,71 +189,6 @@ class MIC {
         return this._getCredentials(account.credentials.token)
       })
       .then(() => { return Promise.resolve(this._account) })
-  }
-
-  init_mqtt () {
-    if (!this._assertInited())
-      throw new Error('Error: MIC not initialized!')
-
-    this._topic = null
-    this._retries = 0
-    this._mqtt = new AWSMqtt({
-      region:                 this._AWS.config.region,
-      accessKeyId:            this._AWS.config.credentials.accessKeyId,
-      secretAccessKey:        this._AWS.config.credentials.secretAccessKey,
-      sessionToken:           this._AWS.config.credentials.sessionToken,
-      endpointAddress:        this._manifest.IotEndpoint,
-      maximumReconnectTimeMs: 8000,
-      protocol:               'wss'
-    })
-    
-    this._mqtt.on('reconnect', () => {
-      this._refreshCredentials().then(() => {
-        this.retries++
-        if (this.retries > 1) {
-          this.retries = 0
-          this._kill_mqtt()
-        }
-      })
-      .catch(e => {
-        console.log(e);
-      })
-    })
-
-    return this._mqtt
-  }
-
-  _kill_mqtt () {
-    if (this._topic !== null)
-      this._mqtt.unsubscribe(this._topic)
-    this._mqtt.end(true)
-    // Bug: user defined .on() are reset
-    this.init_mqtt()
-  }
-
-  subscribe (topic = null) {
-    if (this._topic !== null)
-      this._mqtt.unsubscribe(this._topic)
-
-    this._topic = topic
-
-    return new Promise((reject, resolve) => {
-      this._mqtt.subscribe(topic, {qos: 1}, (err, granted) => {
-        if (err)
-          reject(err)
-        resolve()
-      })
-    })
-  }
-
-  publish (topic, message) {
-    return new Promise((reject, resolve) => {
-      this.mqtt.publish(topic, message, {qos: 1}, (err) => {
-        if (err)
-          reject(err)
-        resolve()
-      })
-    })
   }
 }
 

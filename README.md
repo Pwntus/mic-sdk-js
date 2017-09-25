@@ -59,29 +59,3 @@ Authenticate a Cognito user by invoking the [`Auth API LOGIN`](https://docs.tele
 Invoke a Cloud API with the given payload.
 
 **Return:** `result` promise
-
----
-
-### MIC.init_mqtt()
-Initialize the MQTT client. Use this client to add `.on()` callback handlers to handle MQTT-events, as specified in the [AWS Websocket Pub/Sub client documentation](https://www.npmjs.com/package/aws-mqtt-client)
-
-**Return:** a [AWS Websocket Pub/Sub client](https://www.npmjs.com/package/aws-mqtt-client)
-
----
-
-### MIC.subscribe(topic)
-  * `topic`: the topic to subscribe to, as specified in the [Thing Update API documentation](https://docs.telenorconnexion.com/mic/cloud-api/thing-update/#thing-update-subscription)
-
-Subscribe to a topic.
-
-**Return:** a promise
-
----
-
-### MIC.publish(topic, message)
-  * `topic`: the topic to publish to, as specified in the [Thing Update API documentation](https://docs.telenorconnexion.com/mic/cloud-api/thing-update/#thing-update-publishing)
-  * `message`: the message to publish
-
-Publish a message on a topic.
-
-**Return:** a promise
