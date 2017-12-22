@@ -31,6 +31,11 @@ api.init('startiot.mic.telenorconnexion.com')
 .catch(err => console.log('Error: ', err))
 ```
 
+**Note:** If using the `require`-syntax select the `.default` property.
+```javascript
+var MIC = require('mic-sdk-js').default;
+```
+
 ## API
 
 ### MIC.init(hostname)
