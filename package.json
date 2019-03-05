@@ -1,6 +1,6 @@
 {
   "name": "mic-sdk-js",
-  "version": "3.0.1",
+  "version": "3.1.0",
   "description": "MIC SDK for JavaScript.",
   "main": "./lib/index.js",
   "module": "./lib/index.js",
