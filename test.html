@@ -12,7 +12,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.9.1/d3.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/c3/0.6.13/c3.min.js"></script>
 
-    <script src="https://cdn.jsdelivr.net/npm/mic-sdk-js/dist/mic-sdk-js.min.js"></script>
+    <script src="./dist/mic-sdk-js.min.js"></script>
     <script>
       // Create the chart
       var chart = c3.generate({
@@ -34,12 +34,9 @@
         }
       });
 
-      // Get the MIC library
-      var MIC = window.MIC.default;
-
       // Init with username and password
       MIC.init({ username: '', password: '' })
-        .then(function () {
+        .then(() => {
 
           // Do an Elasticsearch query to get Thing data
           MIC.elasticsearch({
@@ -58,7 +55,7 @@
               }
             }
           })
-            .then(function (result) {
+            .then((result) => {
               // Filter the data for our chart
               var x = ['x'];
               var y = ['data'];
@@ -77,11 +74,11 @@
                 columns: [x, y]
               });
             })
-            .catch(function (e) {
+            .catch((e) => {
               console.log('Error: ', e);
             });
         })
-        .catch(function (e) {
+        .catch((e) => {
           console.log('Error: ', e);
         });
     </script>
