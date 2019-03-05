@@ -33,18 +33,6 @@ MIC.init({
 .catch(err => console.log('Error: ', err))
 ```
 
-### MIC.token
-The session token for an authenticated Cognito user.
-
-### MIC.refreshToken
-The refresh token used to refresh the session for an authenticated Cognito user.
-
-### MIC.manifest
-The MIC manifest object.
-
-### MIC.account
-User account information for an authenticated Cognito user.
-
 ## API
 
 ### MIC.init(config: object)
