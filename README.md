@@ -1,65 +1,58 @@
-# Managed IoT Cloud SDK
-Use this as an interface to easily communicate with the Cloud API's, which can be found [here](https://docs.telenorconnexion.com/mic/cloud-api/).
+# Managed IoT Cloud JavaScript SDK
+Get up and running in no time with Telenor Start IoT and the Managed IoT Cloud (MIC) platform with this JavaScript SDK!
 
 ## Installing
-Using npm:
 ```
-npm i mic-sdk-js
+npm install mic-sdk-js
+
+// or yarn
+yarn add mic-sdk-js
+```
+
+A standalone distribution can also be used directly in the web browser:
+```html
+<html>
+  <head></head>
+  <body>
+    <script src=""></script>
+  </body>
+</html>
 ```
 
 ## Usage
 ```javascript
 import MIC from 'mic-sdk-js'
 
-const api = new MIC
-
-const main = (async () => {
-  try {
-    // Init by providing the hostname of your MIC instance
-    await api.init('startiot.mic.telenorconnexion.com')
-
-    // Login a user
-    await api.login('John', '********')
-
-    // Invoke a cloud API with a payload
-    const result = await api.invoke('ThingTypeLambda', { action: 'LIST' })
-
-    // Output the result
-    console.log('Thing Type list: ', JSON.stringify(result))
-  } catch (e) {
-    throw e
-  }
-})()
+MIC.init({
+  username: '<MIC username>',
+  password: '<MIC password>'
+})
+.then(() => {
+  // Done
+})
+.catch(err => console.log('Error: ', err))
 ```
-
-**Note:** If using the `require`-syntax select the `.default` property.
-```javascript
-var MIC = require('mic-sdk-js').default;
-```
-
-## Properties
-To access instance properties, use them as regular object properties. E.g. to output the account information for a logged in user:
-
-```javascript
-console.log(JSON.stringify(api.account))
-```
-
-### MIC.token
-The session token for an authenticated Cognito user.
-
-### MIC.refreshToken
-The refresh token used to refresh the session for an authenticated Cognito user.
-
-### MIC.manifest
-The MIC manifest object.
-
-### MIC.account
-User account information for an authenticated Cognito user.
 
 ## API
 
-### MIC.init(hostname)
-  * `hostname`: the host name used for your application
+### MIC.init(config: object)
+
+Available config options:
+
+```js
+{
+  // The MIC username
+  username: '<MIC username>',
+
+  // The MIC password
+  password: '<MIC password>',
+
+  // The MIC stack
+  // This is optional and the default value
+  // is 'startiot.mic.telenorconnexion.com'
+  stack: 'startiot.mic.telenorconnexion.com'
+}
+```
 
 This method must be called before any other methods are used.
 
@@ -67,20 +60,32 @@ This method must be called before any other methods are used.
 
 ---
 
-### MIC.login(username, password)
-  * `username`: the user of the user to be authenticated
-  * `password`: the password of the user to be authenticated
+### MIC.post(endpoint: string, body: object)
 
-Authenticate a Cognito user by invoking the [`Auth API LOGIN`](https://docs.telenorconnexion.com/mic/cloud-api/auth/#login) action.
+  * `endpoint`: the REST API endpoint
+  * `body`: the REST API payload body
 
-**Return:** promise
+Call a REST API with the HTTP POST method.
+
+**Return:** `response` promise
 
 ---
 
-### MIC.invoke(cloud_api, payload)
-  * `cloud_api`: the Cloud API name, refer to the [Cloud API documentation](https://docs.telenorconnexion.com/mic/cloud-api/)
-  * `payload`: a payload object
+### MIC.get(endpoint: string, queryParams: object)
 
-Invoke a Cloud API with the given payload.
+  * `endpoint`: the REST API endpoint
+  * `queryParams`: the REST API query parameters
 
-**Return:** `result` promise
+Call a REST API with the HTTP GET method.
+
+**Return:** `response` promise
+
+---
+
+### MIC.elasticsearch(query: object)
+
+  * `query`: an Elasticsearch query
+
+Do an Elasticsearch query using the Elasticsearch API.
+
+**Return:** `response` promise
