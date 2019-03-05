@@ -1,69 +1,81 @@
-# Managed IoT Cloud SDK
-Use this as an interface to easily communicate with the Cloud API's, which can be found [here](https://docs.telenorconnexion.com/mic/cloud-api/).
+# Managed IoT Cloud JavaScript SDK
+Get up and running in no time with Telenor Start IoT and the Managed IoT Cloud (MIC) platform with this JavaScript SDK!
 
 ## Installing
-Using npm:
 ```
 npm install mic-sdk-js
+
+// or yarn
+yarn add mic-sdk-js
+```
+
+A standalone distribution can also be used directly in the web browser:
+```html
+<html>
+  <head></head>
+  <body>
+    <script src=""></script>
+  </body>
+</html>
 ```
 
 ## Usage
 ```javascript
 import MIC from 'mic-sdk-js'
 
-const api = new MIC
-
-// Init by providing the host name for your app
-api.init('startiot.mic.telenorconnexion.com')
-.then((manifest, credentials) => {
-  
-  // Now, login a user
-  api.login('John', '*********')
-  .then(user => {
-
-    // Invoke a cloud API with a payload
-    api.invoke('ThingTypeLambda', { action: 'LIST' })
-    .then(res => {
-      console.log('Thing Type list: ', res)
-    })
-  })
+MIC.init({
+  username: '<MIC username>',
+  password: '<MIC password>'
+})
+.then(() => {
+  // Done
 })
 .catch(err => console.log('Error: ', err))
 ```
 
 ## API
 
-### MIC.init(hostname)
-  * `hostname`: the host name used for your application
+### MIC.init(config: object)
+
+Available config options:
+
+```js
+{
+  // The MIC username
+  username: '<MIC username>',
+
+  // The MIC password
+  password: '<MIC password>',
+
+  // The MIC stack
+  // This is optional and the default value
+  // is 'startiot.mic.telenorconnexion.com'
+  stack: 'startiot.mic.telenorconnexion.com'
+}
+```
 
 This method must be called before any other methods are used.
 
-**Return:** `(manifest, credentials)` promise
+**Return:** promise
 
 ---
 
-### MIC.login(username, password)
-  * `username`: the user of the user to be authenticated
-  * `password`: the password of the user to be authenticated
+### MIC.post(endpoint: string, body: object)
 
-Authenticate a user by invoking the [`Auth API LOGIN`](https://docs.telenorconnexion.com/mic/cloud-api/auth/#login) action.
+  * `endpoint`: the REST API endpoint
+  * `body`: the REST API payload body
 
-**Return:** `user` promise
+Call a REST API with the HTTP POST method.
 
----
-
-### MIC.invoke(cloud_api, payload)
-  * `cloud_api`: the Cloud API name, refer to the [Cloud API documentation](https://docs.telenorconnexion.com/mic/cloud-api/)
-  * `payload`: a payload object
-
-Invoke a Cloud API with the given payload.
-
-**Return:** `result` promise
+**Return:** `response` promise
 
 ---
 
-### MIC.subscribe()
-Coming soon...
+### MIC.get(endpoint: string, queryParams: object)
 
-### MIC.publish()
-Coming soon...
+  * `endpoint`: the REST API endpoint
+  * `queryParams`: the REST API query parameters
+
+Call a REST API with the HTTP GET method.
+
+**Return:** `response` promise

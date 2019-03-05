@@ -1,0 +1,28 @@
+<html>
+  <head>
+    <title>MIC SDK JS Test</title>
+  </head>
+  <body>
+    <script type="application/javascript" src="./dist/mic-sdk-js.min.js"></script>
+    <script>
+      const MIC = window.MIC.default;
+      
+      MIC.init({
+        username: '',
+        password: ''
+      })
+        .then(function () {
+          MIC.get('/users')
+            .then(function (data) {
+              console.log('Result: ', data);
+            })
+            .catch(function (e) {
+              console.log('Error: ', e);
+            });
+        })
+        .catch(function () {
+          console.log('Error: ', e);
+        });
+    </script>
+  </body>
+</html>
