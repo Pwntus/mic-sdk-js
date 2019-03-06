@@ -288,6 +288,19 @@ export default class MIC {
     }
   }
 
+  /**
+   * Convenience method to query the
+   * [POST]: /graphql endpoint.
+   * @param payload GraphQL payload
+   */
+  public async graphql (payload: object) {
+    try {
+      return this.post('/graphql', payload);
+    } catch (e) {
+      throw e;
+    }
+  }
+
   public async post (endpoint: string, body: object = {}) {
     try {
       return await this.tryCall({

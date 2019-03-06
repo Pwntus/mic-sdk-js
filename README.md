@@ -89,3 +89,13 @@ Call a REST API with the HTTP GET method.
 Do an Elasticsearch query using the Elasticsearch API.
 
 **Return:** `response` promise
+
+---
+
+### MIC.graphql(payload: object)
+
+  * `payload`: GraphQL HTTP endpoint payload
+
+Do a GraphQL query using the GraphQL API.
+
+**Return:** `response` promise
