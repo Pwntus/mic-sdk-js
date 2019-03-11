@@ -1,3 +1,5 @@
+import CognitoIdentity = require('aws-sdk/clients/cognitoidentity');
+import { device } from 'aws-iot-device-sdk';
 import axios from 'axios';
 
 import {
@@ -270,6 +272,56 @@ export default class MIC {
       }
 
       return data;
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  private async getCognitoCredentials () {
+    try {
+      if (!this.credentials) {
+        throw new Error('User is not authenticated');
+      }
+
+      const { identityId, token } = this.credentials;
+      const { Region, UserPool } = this.manifest;
+
+      const cognitoIdentityPool = new CognitoIdentity({ region: Region });
+      const params = {
+        IdentityId: identityId,
+        Logins: {
+          [`cognito-idp.${Region}.amazonaws.com/${UserPool}`]: token
+        }
+      };
+
+      return await cognitoIdentityPool.getCredentialsForIdentity(params).promise();
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  public async mqtt () {
+    try {
+      // Get Cognito credentials
+      const { Credentials } = await this.getCognitoCredentials();
+
+      if (!Credentials) {
+        throw new Error('Failed to fetch Cognito credentials');
+      }
+
+      const { AccessKeyId, SecretKey, SessionToken } = Credentials;
+      const { IotEndpointATS, Region } = this.manifest;
+
+      // Return new AWS IoT device
+      return new device({
+        host: IotEndpointATS,
+        region: Region,
+        protocol: 'wss',
+        clientId: 'foo',
+        accessKeyId: AccessKeyId,
+        secretKey: SecretKey,
+        sessionToken: SessionToken
+      });
     } catch (e) {
       throw e;
     }

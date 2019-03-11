@@ -14,7 +14,7 @@ A standalone distribution can also be used directly in the web browser:
 <html>
   <head></head>
   <body>
-    <script src=""></script>
+    <script src="https://unpkg.com/mic-sdk-js@latest/dist/mic-sdk-js.min.js"></script>
   </body>
 </html>
 ```
@@ -60,6 +60,34 @@ This method must be called before any other methods are used.
 
 ---
 
+### MIC.elasticsearch(query: object)
+
+  * `query`: an Elasticsearch query
+
+Do an Elasticsearch query using the Elasticsearch API.
+
+**Return:** `response` promise
+
+---
+
+### MIC.graphql(payload: object)
+
+  * `payload`: GraphQL HTTP endpoint payload
+
+Do a GraphQL query using the GraphQL API.
+
+**Return:** `response` promise
+
+---
+
+### MIC.mqtt()
+
+Initializes a wrapper for the [mqtt.Client()](https://github.com/mqttjs/MQTT.js/blob/master/README.md#client) configured for a TLS connection with the Managed IoT Cloud platform.
+
+**Return:** `response` promise
+
+---
+
 ### MIC.post(endpoint: string, body: object)
 
   * `endpoint`: the REST API endpoint
@@ -77,25 +105,5 @@ Call a REST API with the HTTP POST method.
   * `queryParams`: the REST API query parameters
 
 Call a REST API with the HTTP GET method.
-
-**Return:** `response` promise
-
----
-
-### MIC.elasticsearch(query: object)
-
-  * `query`: an Elasticsearch query
-
-Do an Elasticsearch query using the Elasticsearch API.
-
-**Return:** `response` promise
-
----
-
-### MIC.graphql(payload: object)
-
-  * `payload`: GraphQL HTTP endpoint payload
-
-Do a GraphQL query using the GraphQL API.
 
 **Return:** `response` promise

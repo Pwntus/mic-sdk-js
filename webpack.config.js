@@ -1,4 +1,4 @@
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin'),
+const TerserPlugin = require('terser-webpack-plugin'),
       CompressionPlugin = require('compression-webpack-plugin');
 
 module.exports = {
@@ -14,6 +14,11 @@ module.exports = {
     libraryTarget: 'umd',
     umdNamedDefine: true
   },
+  // Needed for AWS IoT to work in browser
+  node: {
+    fs: 'empty',
+    tls: 'empty'
+  },
   // Enable sourcemaps for debugging webpack's output.
   devtool: 'source-map',
   resolve: {
@@ -22,9 +27,11 @@ module.exports = {
   },
   optimization: {
     minimizer: [
-      new UglifyJsPlugin({
-        sourceMap: true,
-        include: /\.min\.js$/
+      new TerserPlugin({
+        parallel: true,
+        terserOptions: {
+          ecma: 6
+        }
       })
     ]
   },
