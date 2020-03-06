@@ -49,8 +49,8 @@ Available config options:
 
   // The MIC stack
   // This is optional and the default value
-  // is 'startiot.mic.telenorconnexion.com'
-  stack: 'startiot.mic.telenorconnexion.com'
+  // is 'demonorway.mic.telenorconnexion.com'
+  stack: 'demonorway.mic.telenorconnexion.com'
 }
 ```
 
